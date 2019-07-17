@@ -1,0 +1,131 @@
+#head {
+    text-align: center;
+}
+.cat {
+    width: 300px;
+    height: 50px;
+    font-size: 20px;
+    /* background-color:#7facf5; */
+}
+#filter {
+    margin-top: 100px;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#centersub {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+#sub {
+    height: 100px;
+    width: 100px;
+    padding: 40px 20px;
+    font-size: 15px;
+}
+#box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#col {
+    display: flex;
+    flex-direction: row;
+    align-items: space-around;
+    justify-content: space-around;
+}
+
+#sched {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.cbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px;
+}
+.cboxtext {
+    width: 500px;
+    height: 150px;
+    border-style: solid;
+    border-width: 2px;
+    margin: 5px;
+}
+#sched {
+    display: flex;
+    flex-direction: column;
+}
+.container {
+  height:720px;
+  width: 900px;
+  display: inline-flex;
+}
+
+.timings {
+  text-align: right;
+  padding-right: 10px;
+  width: 100px;
+  height: 720px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+  font-size: 0.5em;
+  box-sizing: border-box
+}
+.timings span {
+  font-size: 200%;
+  color: #696969;
+}
+
+.days {
+  height: 720px;
+  width: 620px;
+  padding: 0px 10px;
+  background-color: #F0F0F0;
+  border-color: #D1D1D1;
+  border-style: solid;
+  border-width: 1px;
+  box-sizing: border-box;
+}
+
+.event {
+  background-color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-left-width: 5px;
+  border-color: #D1D1D1;
+  border-left-color: #57b986;
+  padding-left: 10px;
+  /* padding-top: 5px; */
+  /* position: absolute; */
+  font-size: 0.5em;
+  box-sizing: border-box;
+  height: 26px;
+  width: 610px;
+}
+
+.event .title {
+  color: #57b986;
+  font-size: 200%;
+}
+
+/* #events {
+    display: flex;
+    flex-direction: column;
+} */
+#act {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
