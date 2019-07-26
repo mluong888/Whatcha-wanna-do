@@ -3,8 +3,6 @@ function myFunction(){
     // alert(select);
     var table = document.getElementById("checklist");
     if (table!=null){
-        console.log(table.rows.length);
-        console.log(table.rows[0].cells.length);
         for (var i = 0; i<table.rows.length; i++){
             for (var j = 0; j<table.rows[i].cells.length; j++){
                 table.rows[i].cells[j].onclick = function(){
@@ -14,10 +12,11 @@ function myFunction(){
                     var textlist = text.split("<br>");
                     var title = textlist[0].trim();
                     var date = textlist[1].trim();
+                    var location = textlist[2].trim();
+                    console.log(location);
                     var start = date.substring(11,19);
                     var end = date.substring(20,date.length);
-                    console.log(title);
-                    createEvent(start,end, title);
+                    createEvent(start, end, title, location);
                     // console.log(date);
                     // console.log(start);
                     // console.log(end);
@@ -46,13 +45,14 @@ let width = [];
 let leftOffSet = [];
 
 // append one event to calendar
-var createEvent = (start, end, title) => {
+var createEvent = (start, end, title, location) => {
 
   let node = document.createElement("DIV");
   node.className = "event";
   node.innerHTML =
-  "<span class='title'>" + title + "</span>"
-  console.log(title);
+  "<span class='title'>" + title + "</span> \
+  <br> <span class='location'>" + start + "-" + end + "</span> \
+  <br> <span>" + location + "</span>";
   // " \
   // <br><span class='location'> Sample Location </span>";
 
@@ -65,11 +65,8 @@ var createEvent = (start, end, title) => {
   document.getElementById("events").appendChild(node);
   // node.style.position = "relative";
   node.style.position = "absolute";
-
-  // timeslot(start,end);
   var slotlst = timeslot(start, end);
-  console.log(slotlst[0])
-  var pushdown = (slotlst[0] - 480)/60 * 46 + 975
+  var pushdown = (slotlst[0] - 480)/60 * 40 + 1025;
   // var pushdown = slotlst[0]/30 * 25 + 975 - 480;
   node.style.top = pushdown + "px";
   node.style.height = slotlst[1]/30 * 23;
@@ -89,7 +86,6 @@ function timeslot (start, end) {
     var initconv = parseInt(init) * 60 + parseFloat(initdeci);
     var finalconv = parseInt(final) * 60 + parseFloat(finaldeci);
     var diff = finalconv - initconv;
-    console.log(diff);
     return [initconv, diff];
 
 }
@@ -192,6 +188,6 @@ var myNode = document.getElementById("events");
     createEvent(event.start, event.end, "test");
   });
 }
-const events = [{start: "10:00", end: "11:00"}, {start: "11:00", end: "12:00"}, {start: "12:00", end: "13:00"}, {start: "13:00", end: "14:00"} ];
+const events = [{start: "7:00", end: "8:00"},{start: "8:00", end: "9:00"}, {start: "9:00", end: "10:00"},{start: "10:00", end: "11:00"}, {start: "11:00", end: "12:00"}, {start: "12:00", end: "13:00"}, {start: "13:00", end: "14:00"}, {start: "14:00", end: "15:00"}, {start: "15:00", end: "16:00"} ];
 
 layOutDay(events);
