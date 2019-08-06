@@ -16,7 +16,19 @@ function myFunction(){
                     console.log(location);
                     var start = date.substring(11,19);
                     var end = date.substring(20,date.length);
-                    createEvent(start, end, title, location);
+                    var newt = timeslot(start, end);
+                    console.log(newt);
+                    var dic = {
+                        start: newt[0],
+                        end: newt[1],
+                        // start: 60,
+                        // end: 120,
+                        title: title,
+                        loc: location
+                    };
+                    eventlst.push(dic);
+                    layOutDay(eventlst);
+                    // createEvent(start, end, title, location);
                     // console.log(date);
                     // console.log(start);
                     // console.log(end);
@@ -33,49 +45,7 @@ function myFunction(){
     // console.log(text)
     // alert(text);
 }
-
-
-//from website!!!
-//============================================
-const containerHeight = 720;
-const containerWidth = 600;
-const minutesinDay = 60 * 12;
-let collisions = [];
-let width = [];
-let leftOffSet = [];
-
-// append one event to calendar
-var createEvent = (start, end, title, location) => {
-
-  let node = document.createElement("DIV");
-  node.className = "event";
-  node.innerHTML =
-  "<span class='title'>" + title + "</span> \
-  <br> <span class='location'>" + start + "-" + end + "</span> \
-  <br> <span>" + location + "</span>";
-  // " \
-  // <br><span class='location'> Sample Location </span>";
-
-  // Customized CSS to position each event
-  // node.style.width = (containerWidth/units) + "px";
-  // node.style.height = height + "px";
-  // node.style.top = top + "px";
-  // node.style.left = 100 + left + "px";
-
-  document.getElementById("events").appendChild(node);
-  // node.style.position = "relative";
-  node.style.position = "absolute";
-  var slotlst = timeslot(start, end);
-  var pushdown = (slotlst[0] - 480)/60 * 40 + 1025;
-  // var pushdown = slotlst[0]/30 * 25 + 975 - 480;
-  node.style.top = pushdown + "px";
-  node.style.height = slotlst[1]/30 * 23;
-
-  //every half hour is 26px
-  // node.style.top = "200px";
-
-}
-
+eventlst = [];
 function timeslot (start, end) {
     //return diff of start -> end in minutes
     var init = start.substring(0,2);
@@ -83,20 +53,64 @@ function timeslot (start, end) {
     var final = end.substring(0,2);
     var finaldeci = end.substring(3,5);
 
-    var initconv = parseInt(init) * 60 + parseFloat(initdeci);
-    var finalconv = parseInt(final) * 60 + parseFloat(finaldeci);
-    var diff = finalconv - initconv;
-    return [initconv, diff];
+    var initconv = parseInt(init) * 60 + parseFloat(initdeci) - 420;
+    var finalconv = parseInt(final) * 60 + parseFloat(finaldeci) - 420;
 
+    // let height = (event.end - event.start) / minutesinDay * containerHeight;
+    // let top = event.start / minutesinDay * containerHeight;
+    return [initconv, finalconv];
+    //
+    // let height = (event.end - event.start) / minutesinDay * containerHeight;
+    // let top = event.start / minutesinDay * containerHeight;
+    // let end = event.end;
+    // let start = event.start;
 }
-// timeslot("11:30", "19:15");
+
+
+//from website!!!
+//============================================
+const containerHeight = 720;
+// const containerHeight = 900;
+// const containerWidth = 720;
+const containerWidth = 600;
+const minutesinDay = 60 * 17;
+let collisions = [];
+let width = [];
+let leftOffSet = [];
+
+// append one event to calendar
+var createEvent = (height, top, left, units, title, loc) => {
+
+  let node = document.createElement("DIV");
+  node.className = "event";
+  node.innerHTML =
+  "<span class='title'>"+ title +"</span> \
+  <br><span class='location'>" + loc +"</span>";
+
+  // Customized CSS to position each event
+  node.style.width = ((containerWidth + 19)/units) + "px";
+  node.style.height = height + "px";
+  node.style.top = top + "px";
+  node.style.left = 233 + left + "px";
+
+  document.getElementById("events").appendChild(node);
+}
+
+/*
+collisions is an array that tells you which events are in each 30 min slot
+- each first level of array corresponds to a 30 minute slot on the calendar
+  - [[0 - 30mins], [ 30 - 60mins], ...]
+- next level of array tells you which event is present and the horizontal order
+  - [0,0,1,2]
+  ==> event 1 is not present, event 2 is not present, event 3 is at order 1, event 4 is at order 2
+*/
 
 function getCollisions (events) {
 
   //resets storage
   collisions = [];
 
-  for (var i = 0; i < 24; i ++) {
+  for (var i = 0; i < 36; i ++) {
     var time = [];
     for (var j = 0; j < events.length; j++) {
       time.push(0);
@@ -111,7 +125,8 @@ function getCollisions (events) {
 
     while (start < end) {
       timeIndex = Math.floor(start/30);
-
+      // console.log(timeIndex);
+      // console.log("collisions" + collisions.length)
       while (order < events.length) {
         if (collisions[timeIndex].indexOf(order) === -1) {
           break;
@@ -167,27 +182,28 @@ function getAttributes (events) {
     }
   });
 };
+
 var layOutDay = (events) => {
 
 // clear any existing nodes
 var myNode = document.getElementById("events");
-// myNode.innerHTML = '';
+myNode.innerHTML = '';
 
-  // getCollisions(events);
-  // getAttributes(events);
+  getCollisions(events);
+  getAttributes(events);
 
   events.forEach((event, id) => {
-    // let height = (event.end - event.start) / minutesinDay * containerHeight;
-    // let top = event.start / minutesinDay * containerHeight;
-    // let end = event.end;
-    // let start = event.start;
-    // let units = width[id];
-    // if (!units) {units = 1};
-    // let left = (containerWidth / width[id]) * (leftOffSet[id] - 1) + 200;
-    // if (!left || left < 0) {left = 10};
-    createEvent(event.start, event.end, "test");
+    let height = (event.end - event.start-1) / minutesinDay * containerHeight;
+    let top = (event.start-1) / minutesinDay * containerHeight  + 977;
+    let end = event.end;
+    let start = event.start;
+    let units = width[id];
+    if (!units) {units = 1};
+    let left = (containerWidth / width[id]) * (leftOffSet[id] - 1) + 10;
+    if (!left || left < 0) {left = 10};
+    createEvent(height, top, left, units, event.title, event.loc);
   });
 }
-const events = [{start: "7:00", end: "8:00"},{start: "8:00", end: "9:00"}, {start: "9:00", end: "10:00"},{start: "10:00", end: "11:00"}, {start: "11:00", end: "12:00"}, {start: "12:00", end: "13:00"}, {start: "13:00", end: "14:00"}, {start: "14:00", end: "15:00"}, {start: "15:00", end: "16:00"} ];
+// const events = [ {start: 0, end: 60}, {start: 60, end: 120}, {start: 120, end: 180}, {start: 180, end: 240}, {start: 240, end: 300}, {start: 300, end: 360}, {start: 360, end: 420}, {start: 420, end: 480}, {start: 480, end: 540}, {start: 540, end: 600}, {start: 600, end: 660}, {start: 660, end: 720}, {start: 720, end: 780}, {start: 780, end: 840}, {start: 840, end: 900}, {start: 900, end: 960}, {start: 960, end: 1020}];
 
-layOutDay(events);
+// layOutDay(events);

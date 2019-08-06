@@ -68,7 +68,8 @@
 .container {
   height:720px;
   width: 900px;
-  display: inline-flex;
+  display: flex;
+  justify-content: center;
 }
 
 .timings {
@@ -107,18 +108,17 @@
   border-color: #D1D1D1;
   border-left-color: #57b986;
   padding-left: 10px;
-  /* padding-top: 5px; */
-  /* position: absolute; */
+  padding-top: 5px;
+  position: absolute;
   font-size: 0.5em;
   box-sizing: border-box;
-  height: 26px;
-  width: 610px;
 }
 
 .event .title {
   color: #57b986;
   font-size: 200%;
 }
+
 
 /* #events {
     display: flex;
