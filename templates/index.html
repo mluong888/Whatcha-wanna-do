@@ -76,7 +76,7 @@
                         <p class = "cboxtext">
                             {{dic["name"]}}
                             <br>
-                            {{dic["date"]}} {{dic["start_time"]}}-{{dic["end_time"]}}
+                            {{dic["date"]}} {{dic["start_time"][0:5]}}-{{dic["end_time"][0:5]}}
                             <br>
                             {{dic["location"]}}
                             <br>
@@ -90,8 +90,6 @@
 
 
             </table>
-
-            <input type = "button" value = "Generate Schedule"/>
         </div>
     <div id = "sched">
         {% if lst %}

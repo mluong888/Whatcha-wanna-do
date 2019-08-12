@@ -7,17 +7,14 @@ function myFunction(){
             for (var j = 0; j<table.rows[i].cells.length; j++){
                 table.rows[i].cells[j].onclick = function(){
                     alert(this.innerHTML.substring(133,this.innerHTML.length));
-                    // console.log(this.innerHTML.substring(140,this.innerHTML.length));
                     var text = this.innerHTML.substring(140,this.innerHTML.length);
                     var textlist = text.split("<br>");
                     var title = textlist[0].trim();
                     var date = textlist[1].trim();
                     var location = textlist[2].trim();
-                    console.log(location);
-                    var start = date.substring(11,19);
-                    var end = date.substring(20,date.length);
+                    var start = date.substring(11,16);
+                    var end = date.substring(17,date.length);
                     var newt = timeslot(start, end);
-                    console.log(newt);
                     var dic = {
                         start: newt[0],
                         end: newt[1],
@@ -91,8 +88,9 @@ var createEvent = (height, top, left, units, title, loc) => {
   node.style.width = ((containerWidth + 19)/units) + "px";
   node.style.height = height + "px";
   node.style.top = top + "px";
-  node.style.left = 233 + left + "px";
-
+  // node.style.left = 233 + left + "px";
+  node.style.left = left + "px";
+  node.style.right = "10px";
   document.getElementById("events").appendChild(node);
 }
 
@@ -144,7 +142,6 @@ function getCollisions (events) {
 
 /*
 find width and horizontal position
-
 width - number of units to divide container width by
 horizontal position - pixel offset from left
 */
@@ -191,19 +188,23 @@ myNode.innerHTML = '';
 
   getCollisions(events);
   getAttributes(events);
+  var heighttotal = 0;
 
   events.forEach((event, id) => {
-    let height = (event.end - event.start-1) / minutesinDay * containerHeight;
-    let top = (event.start-1) / minutesinDay * containerHeight  + 977;
+    let height = (event.end - event.start) / minutesinDay * containerHeight;
+    // let top = (event.start-1) / minutesinDay * containerHeight  + 977;
+
+
+    let top = (event.start) / minutesinDay * containerHeight - heighttotal;
+    // console.log(top);
+    heighttotal += height
+    // console.log(toptotal);
     let end = event.end;
     let start = event.start;
     let units = width[id];
     if (!units) {units = 1};
-    let left = (containerWidth / width[id]) * (leftOffSet[id] - 1) + 10;
-    if (!left || left < 0) {left = 10};
+    let left = (containerWidth / width[id]) * (leftOffSet[id] - 1);
+    // if (!left || left < 0) {left = 10};
     createEvent(height, top, left, units, event.title, event.loc);
   });
 }
-// const events = [ {start: 0, end: 60}, {start: 60, end: 120}, {start: 120, end: 180}, {start: 180, end: 240}, {start: 240, end: 300}, {start: 300, end: 360}, {start: 360, end: 420}, {start: 420, end: 480}, {start: 480, end: 540}, {start: 540, end: 600}, {start: 600, end: 660}, {start: 660, end: 720}, {start: 720, end: 780}, {start: 780, end: 840}, {start: 840, end: 900}, {start: 900, end: 960}, {start: 960, end: 1020}];
-
-// layOutDay(events);
