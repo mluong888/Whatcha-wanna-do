@@ -61,8 +61,25 @@
             </div>
             <br>
         <div id = "act">
-            <table id = "checklist">
+            <form name = "act">
+                {% if lst %}
+                    {% for dic in lst %}
+                        <input onclick = "myFunc()" type="checkbox" value="{{dic['name']}}//{{dic['start_time'][0:5]}}-{{dic['end_time'][0:5]}}//{{dic['location']}}">
+                        <p class = "cboxtext">
+                            {{dic["name"]}}
+                            <br>
+                            {{dic["date"]}} {{dic["start_time"][0:5]}}-{{dic["end_time"][0:5]}}
+                            <br>
+                            {{dic["location"]}}
+                            <br>
+                            {{dic["url"]}}
+                        </p>
+                    {% endfor%}
+                {% endif %}
+            </form>
+            <!-- <table id = "checklist">
                 <tr>
+                    <th> Checkbox: </th>
                     <th> Activities: </th>
                 </tr>
 
@@ -70,9 +87,12 @@
                 {% if lst %}
                     {% for dic in lst %}
                     <tr>
-                    <td onclick = "myFunction()">
-                    <div class = "cbox">
-                        <input type="checkbox" >
+
+                    <td>
+                        <input onclick = "myFunc()" type="checkbox" >
+                    </td>
+                    <td>
+                    <div>
                         <p class = "cboxtext">
                             {{dic["name"]}}
                             <br>
@@ -89,7 +109,7 @@
                 {% endif %}
 
 
-            </table>
+            </table> -->
         </div>
     <div id = "sched">
         {% if lst %}

@@ -1,48 +1,29 @@
-function myFunction(){
-    // var select = document.getElementsByClassName("cbox").getElementsByClassName("cboxtext")[0];
-    // alert(select);
-    var table = document.getElementById("checklist");
-    if (table!=null){
-        for (var i = 0; i<table.rows.length; i++){
-            for (var j = 0; j<table.rows[i].cells.length; j++){
-                table.rows[i].cells[j].onclick = function(){
-                    alert(this.innerHTML.substring(133,this.innerHTML.length));
-                    var text = this.innerHTML.substring(140,this.innerHTML.length);
-                    var textlist = text.split("<br>");
-                    var title = textlist[0].trim();
-                    var date = textlist[1].trim();
-                    var location = textlist[2].trim();
-                    var start = date.substring(11,16);
-                    var end = date.substring(17,date.length);
-                    var newt = timeslot(start, end);
-                    var dic = {
-                        start: newt[0],
-                        end: newt[1],
-                        // start: 60,
-                        // end: 120,
-                        title: title,
-                        loc: location
-                    };
-                    eventlst.push(dic);
-                    layOutDay(eventlst);
-                    // createEvent(start, end, title, location);
-                    // console.log(date);
-                    // console.log(start);
-                    // console.log(end);
-                    // for (var k=0; k <text.length; k++){
-                    //     if counter == 0:
-                    //         title.concat(text.charAt(k));
-                    //
-                    // }
-                }
-            }
+function myFunc(){
+    eventlst = [];
+    var activities = document.forms["act"];
+    for (var i = 0; i < activities.length; i++) {
+        if (activities[i].checked) {
+            var textlist = activities[i].value.split("//");
+            var title = textlist[0].trim();
+            var date = textlist[1].trim();
+            var location = textlist[2].trim();
+            var start = date.substring(0,5);
+            var end = date.substring(6,date.length);
+            var newt = timeslot(start, end);
+            var dic = {
+                start: newt[0],
+                end: newt[1],
+                title: title,
+                loc: location
+            };
+            eventlst.push(dic);
+            layOutDay(eventlst);
+        } else {
+            layOutDay(eventlst);
         }
-    }
-    // var text = document.getElementsByClassName("cboxtext")[0].innerHTML;
-    // console.log(text)
-    // alert(text);
+     }
 }
-eventlst = [];
+
 function timeslot (start, end) {
     //return diff of start -> end in minutes
     var init = start.substring(0,2);
@@ -123,8 +104,6 @@ function getCollisions (events) {
 
     while (start < end) {
       timeIndex = Math.floor(start/30);
-      // console.log(timeIndex);
-      // console.log("collisions" + collisions.length)
       while (order < events.length) {
         if (collisions[timeIndex].indexOf(order) === -1) {
           break;
