@@ -60,10 +60,73 @@
                 </form>
             </div>
             <br>
-        <div id = "act">
-            <form name = "act">
+
+            <div class="slideshow-container">
+                <form name = "act">
                 {% if lst %}
                     {% for dic in lst %}
+                        <div class="mySlides fade">
+                            <input class = "star" onclick = "myFunc()" type="checkbox" value="{{dic['name']}}//{{dic['start_time'][0:5]}}-{{dic['end_time'][0:5]}}//{{dic['location']}}">
+                            <br>
+                            <br>
+                            <div class = "cboxtext">
+                                <div style="font-size:24px; width: 100%">{{dic["name"]}}</div>
+
+                                <br>
+                                {{dic["date"]}} {{dic["start_time"][0:5]}}-{{dic["end_time"][0:5]}}
+                                <br>
+                                {{dic["location"]}}
+
+                            </div>
+                            <img id = "pict" src="{{dic['image']}}" width="650px" height="400px">
+                            <p>
+                                <a href="{{dic['url']}}"> {{dic['url']}} </a>
+                            </p>
+                        </div>
+                    {% endfor%}
+                {% endif %}
+                </form>
+                <!-- <div class="mySlides fade">
+                  <div class="numbertext">1 / 3</div>
+                  <img src="img_nature_wide.jpg" style="width:100%">
+                  <div class="text">Caption Text</div>
+                </div>
+
+                <div class="mySlides fade">
+                  <div class="numbertext">2 / 3</div>
+                  <img src="img_snow_wide.jpg" style="width:100%">
+                  <div class="text">Caption Two</div>
+                </div>
+
+                <div class="mySlides fade">
+                  <div class="numbertext">3 / 3</div>
+                  <img src="img_mountains_wide.jpg" style="width:100%">
+                  <div class="text">Caption Three</div>
+                </div> -->
+
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+            </div>
+                <br>
+
+                <div style="text-align:center">
+                  <span class="dot" onclick="currentSlide(1)"></span>
+                  <span class="dot" onclick="currentSlide(2)"></span>
+                  <span class="dot" onclick="currentSlide(3)"></span>
+                  <span class="dot" onclick="currentSlide(4)"></span>
+                  <span class="dot" onclick="currentSlide(5)"></span>
+                  <span class="dot" onclick="currentSlide(6)"></span>
+                  <span class="dot" onclick="currentSlide(7)"></span>
+                  <span class="dot" onclick="currentSlide(8)"></span>
+                  <span class="dot" onclick="currentSlide(9)"></span>
+                  <span class="dot" onclick="currentSlide(10)"></span>
+                </div>
+        <div id = "act">
+            <!-- <form name = "act">
+                {% if lst %}
+                    {% for dic in lst %}
+                    <div class = "ev">
                         <input onclick = "myFunc()" type="checkbox" value="{{dic['name']}}//{{dic['start_time'][0:5]}}-{{dic['end_time'][0:5]}}//{{dic['location']}}">
                         <p class = "cboxtext">
                             {{dic["name"]}}
@@ -72,11 +135,14 @@
                             <br>
                             {{dic["location"]}}
                             <br>
-                            {{dic["url"]}}
+                            <img src = "{{dic['image']}}" width="250px" height="250px"/>
+                            <br>
+                            <a href="{{dic['url']}}"> {{dic['url']}} </a>
                         </p>
+                    </div>
                     {% endfor%}
                 {% endif %}
-            </form>
+            </form> -->
             <!-- <table id = "checklist">
                 <tr>
                     <th> Checkbox: </th>

@@ -1,9 +1,42 @@
+// slideshow
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+}
+
+
+// add event
 function myFunc(){
     eventlst = [];
     var activities = document.forms["act"];
+    console.log(activities);
     for (var i = 0; i < activities.length; i++) {
         if (activities[i].checked) {
+            // console.log("check worked");
             var textlist = activities[i].value.split("//");
+            console.log(i , textlist);
             var title = textlist[0].trim();
             var date = textlist[1].trim();
             var location = textlist[2].trim();
@@ -17,6 +50,7 @@ function myFunc(){
                 loc: location
             };
             eventlst.push(dic);
+            console.log(eventlst);
             layOutDay(eventlst);
         } else {
             layOutDay(eventlst);
@@ -104,13 +138,14 @@ function getCollisions (events) {
 
     while (start < end) {
       timeIndex = Math.floor(start/30);
+      console.log(timeIndex);
       while (order < events.length) {
         if (collisions[timeIndex].indexOf(order) === -1) {
           break;
         }
         order ++;
       }
-
+      console.log(collisions[timeIndex]);
       collisions[timeIndex][id] = order;
       start = start + 30;
     }
@@ -134,29 +169,34 @@ function getAttributes (events) {
     width.push(0);
     leftOffSet.push(0);
   }
+  if (collisions!=null){
+      collisions.forEach((period) => {
 
-  collisions.forEach((period) => {
-
-    // number of events in that period
-    let count = period.reduce((a,b) => {
-      return b ? a + 1 : a;
-    })
-
-    if (count > 1) {
-      period.forEach((event, id) => {
-        // max number of events it is sharing a time period with determines width
-        if (period[id]) {
-          if (count > width[id]) {
-            width[id] = count;
-          }
+        // number of events in that period
+        if (period.length==0){
+            return;
         }
+        console.log(period);
+        let count = period.reduce((a,b) => {
+          return b ? a + 1 : a;
+        })
 
-        if (period[id] && !leftOffSet[id]) {
-          leftOffSet[id] = period[id];
+        if (count > 1) {
+          period.forEach((event, id) => {
+            // max number of events it is sharing a time period with determines width
+            if (period[id]) {
+              if (count > width[id]) {
+                width[id] = count;
+              }
+            }
+
+            if (period[id] && !leftOffSet[id]) {
+              leftOffSet[id] = period[id];
+            }
+          })
         }
-      })
+      });
     }
-  });
 };
 
 var layOutDay = (events) => {

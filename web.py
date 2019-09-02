@@ -19,6 +19,7 @@ def form_example():
         category = request.form.get('category')
         # acronym = func(category)
         temp = eb_api_query(location, date, radius, price, category)
+        print(temp)
         return render_template('index.html', lst = temp)
 
     return render_template('index.html')
