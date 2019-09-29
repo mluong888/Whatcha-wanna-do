@@ -11,10 +11,10 @@ user = eventbrite.get_user()
 def eb_api_query(*args):
 # def eb_api_query():
     argument = {}
-    # argument["location.address"]="Berkeley"
+    # argument["location.address"]="San Francisco"
     # argument["location.within"]="10mi"
     # # argument["price"]="free"
-    # argument["start_date.range_start"] = "2019-07-05T00:00:00"
+    # argument["start_date.range_start"] = "2019-09-29T00:00:00"
     # # argument["sort_by"] = "date"
     # argument["expand"] = "venue"
     # argument["categories"] = "102"
@@ -34,11 +34,13 @@ def eb_api_query(*args):
     if event == None:
         print("didnt work")
         return;
-    limit = min(10, len(event))
+    limit = min(10, len(event["events"]))
     # print(len(event))
     first_event = event["events"][0:limit]
+    print(len(first_event))
     lst = []
     for e in first_event:
+        # pp.pprint(e)
         dict = {}
         dict["name"] = e["name"]["text"]
         dict["url"] = e["url"]
@@ -47,28 +49,13 @@ def eb_api_query(*args):
         dict["date"] = (e["start"]["local"])[0:10]
         dict["start_time"] = (e["start"]["local"])[11:19]
         dict["end_time"] = e["end"]["local"][11:19]
-        dict["location"] = e["venue"]["address"]["address_1"]
-        dict["city"] = e["venue"]["address"]["city"]
+        # dict["location"] = e["venue"]["address"]["address_1"]
+        # dict["city"] = e["venue"]["address"]["city"]
         dict["image"] = e["logo"]["original"]["url"]
         # print(e["logo"]["original"]["url"])
         lst.append(dict)
         # return dict
-    # print("name: " + first_event["name"]["text"] + "\n")
-    # print("url: " + first_event["url"]+ "\n")
-    # print("description: " + first_event["description"]["text"]+ "\n")
-    # print("start time: " + first_event["start"]["local"]+ "\n")
-    # print("end time: " + first_event["end"]["local"]+ "\n")
-    # print("location: " + first_event["venue"]["address"]["address_1"] + "\n")
-    # print("city: " + first_event["venue"]["address"]["city"] + "\n")
-    # # print("location_2: " + first_event["venue"]["address"]["address_2"] + "\n")
-    # print("location_id: " + first_event["venue_id"]+ "\n")
-    # eventzzzz = eventbrite.event_search(**args, venue_id = loc)
-    # pp.pprint(first_event)
-    # object_methods = [method_name for method_name in dir(eventbrite)
-    #               if callable(getattr(eventbrite, method_name))]
-    # print(object_methods)
-    # location = eventbrite.get(id=loc)
     # print(location)
-    # print(lst[0])
+    # print(lst)
     return lst
 # print(eb_api_query())
